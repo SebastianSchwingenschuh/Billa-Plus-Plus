@@ -10,14 +10,27 @@ public class FoodArticle extends Article {
     }
 
     public boolean addAllergen(AllergenType allergenType) {
-        return false;
+        if (allergenTypes.contains(allergenType)) {
+            return false;
+        }
+        this.allergenTypes.add(allergenType);
+        return true;
     }
 
-    public boolean containsAnyAllergen(AllergenType[]allergenTypes) {
+    public boolean containsAnyAllergen(AllergenType[] allergenTypes) {
+        for (AllergenType allergenType : allergenTypes) {
+            if (this.allergenTypes.contains(allergenType)) {
+                return true;
+            }
+        }
         return false;
     }
 
     public boolean removeAllergen(AllergenType allergenType) {
-        return false;
+        if(!this.allergenTypes.contains(allergenType)) {
+            return false;
+        }
+        this.allergenTypes.remove(allergenType);
+        return true;
     }
 }
