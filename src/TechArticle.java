@@ -8,6 +8,9 @@ public class TechArticle extends Article {
 
 
     public int getWarrantyMonths() {
+        if(warrantyMonths <= 6) {
+            return 6;
+        }
         return warrantyMonths;
     }
 }
