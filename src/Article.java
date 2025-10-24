@@ -18,14 +18,17 @@ public abstract class Article implements Comparable<Article> {
         this.quantity = quantity;
     }
 
-    public boolean isValidBarcode(int barcode) {
+    public static boolean isValidBarcode(int barcode) {
         //Number 4 5 3 4 2 3 2
         //Weight 1 3 1 3 1 3 1
         //Products 4 15 3 12 2 9 2
         //Sum 47
         //Sum mod 10 7
         //Difference to next 10 3
-        int lastDigit = barcode % 10;
+
+        if(barcode > 99999999 || barcode < 10000000)
+            return false;
+        
         int[] barcodeDigits = new int[8];
 
         for (int i = 7; i >= 0; i--) {
@@ -85,7 +88,7 @@ public abstract class Article implements Comparable<Article> {
     }
 
     public static boolean checkBarcode(int barcode) {
-        return false;
+        return isValidBarcode(barcode);
     }
 
     public int compareTo(Article article) {
