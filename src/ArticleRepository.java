@@ -54,4 +54,8 @@ public class ArticleRepository {
         }
         return actMax;
     }
+
+    public void addArticlesFromFile(String s, ArticleFactory articleFactory) {
+        
+    }
 }
