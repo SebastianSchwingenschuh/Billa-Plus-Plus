@@ -1,4 +1,6 @@
 import java.awt.color.CMMException;
+import java.io.File;
+import java.io.StringReader;
 import java.util.*;
 
 public class ArticleRepository {
@@ -45,7 +47,7 @@ public class ArticleRepository {
     }
 
     public TechArticle getTechArticleWithLongestWarranty() {
-        TechArticle actMax = null;
+        TechArticle actMax = new TechArticle("TechArticleWithLongestWarranty Dummy", 26353522, 15, 0);
         for (Article article : articles.values()) {
             if (article instanceof TechArticle) {
                 if (actMax == null || ((TechArticle) article).getWarrantyMonths() > actMax.getWarrantyMonths())
@@ -56,6 +58,15 @@ public class ArticleRepository {
     }
 
     public void addArticlesFromFile(String s, ArticleFactory articleFactory) {
-        
+        try (Scanner sc = new Scanner(new File(s))) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                Article article = articleFactory.createFromString(line);
+                articles.put(article.getBarcode(), article);
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
