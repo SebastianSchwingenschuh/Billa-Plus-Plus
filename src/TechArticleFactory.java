@@ -12,8 +12,8 @@ public class TechArticleFactory implements ArticleFactory {
         try {
             return new TechArticle(fields[1], Integer.parseInt(fields[0]), Integer.parseInt(fields[2]), Integer.parseInt(fields[3]));
         }
-        catch (java.lang.NumberFormatException e) {
-            throw new ArticleManagementException("Problems while parsing food article");
+        catch (Exception e) {
+            throw new ArticleManagementException(e.getMessage());
         }
     }
 }

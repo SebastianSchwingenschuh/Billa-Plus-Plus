@@ -1,6 +1,8 @@
 import java.awt.color.CMMException;
 import java.io.File;
 import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ArticleRepository {
@@ -58,15 +60,15 @@ public class ArticleRepository {
     }
 
     public void addArticlesFromFile(String s, ArticleFactory articleFactory) {
-        try (Scanner sc = new Scanner(new File(s))) {
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(s));
+            for (String line : lines) {
                 Article article = articleFactory.createFromString(line);
                 articles.put(article.getBarcode(), article);
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ArticleManagementException(e.getMessage(), e.getCause());
         }
     }
 }
