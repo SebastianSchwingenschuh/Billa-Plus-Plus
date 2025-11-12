@@ -1,5 +1,6 @@
 import java.awt.color.CMMException;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -49,13 +50,15 @@ public class ArticleRepository {
     }
 
     public TechArticle getTechArticleWithLongestWarranty() {
-        TechArticle actMax = new TechArticle("TechArticleWithLongestWarranty Dummy", 26353522, 15, 0);
+        TechArticle actMax = null;
         for (Article article : articles.values()) {
             if (article instanceof TechArticle) {
                 if (actMax == null || ((TechArticle) article).getWarrantyMonths() > actMax.getWarrantyMonths())
                     actMax = (TechArticle) article;
             }
         }
+//        if(actMax.getBarcode() == 26353522)
+//            return null;
         return actMax;
     }
 
@@ -67,8 +70,8 @@ public class ArticleRepository {
                 articles.put(article.getBarcode(), article);
             }
         }
-        catch (Exception e) {
-            throw new ArticleManagementException(e.getMessage(), e.getCause());
+        catch (IOException e) {
+            throw new ArticleManagementException("Exception occured while loading file!", e);
         }
     }
 }
