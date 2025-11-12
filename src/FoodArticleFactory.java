@@ -7,7 +7,7 @@ public class FoodArticleFactory implements ArticleFactory {
             fields[i] = fields[i].trim();
         }
         if (fields.length != 4) {
-            throw new ArticleManagementException("not 4 fields");
+            throw new ArticleManagementException("Not enough fields (!4)");
         }
         try {
             AllergenType[] allergenTypes = new AllergenType[fields[3].split(",").length];
@@ -17,7 +17,7 @@ public class FoodArticleFactory implements ArticleFactory {
             return new FoodArticle(fields[1], Integer.parseInt(fields[0]), Integer.parseInt(fields[2]), allergenTypes);
         }
         catch (java.lang.NumberFormatException e) {
-            throw new ArticleManagementException("Problems while parsing food article");
+            throw new ArticleManagementException("Problems while creating foodArticle from fields-string", e.getCause());
         }
     }
 }

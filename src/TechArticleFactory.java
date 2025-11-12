@@ -4,7 +4,7 @@ public class TechArticleFactory implements ArticleFactory {
     public Article createFromString(String article) {
         String[] fields = article.split(";");
         if (fields.length != 4) {
-            throw new ArticleManagementException("not 4 fields");
+            throw new ArticleManagementException("Not enough fields (!4)");
         }
         for(int i = 0; i < fields.length; i++){
             fields[i] = fields[i].trim();
