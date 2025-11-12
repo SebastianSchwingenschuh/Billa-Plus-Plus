@@ -1,3 +1,4 @@
+import javax.xml.namespace.QName;
 import java.awt.color.CMMException;
 import java.io.File;
 import java.io.IOException;
@@ -35,11 +36,13 @@ public class ArticleRepository {
     public List<FoodArticle> getFoodWithoutAllergens(AllergenType[] allergenTypes) {
         List<FoodArticle> foodWithoutAllergens = new ArrayList<>();
         for (Article article : articles.values()) {
-            if (article instanceof FoodArticle) {
-                if (!((FoodArticle) article).containsAnyAllergen(allergenTypes))
-                    foodWithoutAllergens.add((FoodArticle) article);
+            if (article instanceof FoodArticle foodArticle) {
+                if (!foodArticle.containsAnyAllergen(allergenTypes)) {
+                    foodWithoutAllergens.add(foodArticle);
+                }
             }
         }
+        foodWithoutAllergens.sort(Comparator.comparing(FoodArticle::getName));
         return foodWithoutAllergens;
     }
 
@@ -57,20 +60,18 @@ public class ArticleRepository {
                     actMax = (TechArticle) article;
             }
         }
-//        if(actMax.getBarcode() == 26353522)
-//            return null;
         return actMax;
     }
 
     public void addArticlesFromFile(String s, ArticleFactory articleFactory) {
         try {
             List<String> lines = Files.readAllLines(Paths.get(s));
+            lines.remove(0);    //header löschen
             for (String line : lines) {
                 Article article = articleFactory.createFromString(line);
-                articles.put(article.getBarcode(), article);
+                addArticle(article);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ArticleManagementException("Exception occured while loading file!", e);
         }
     }

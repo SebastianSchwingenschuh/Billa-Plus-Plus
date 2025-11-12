@@ -6,14 +6,14 @@ public class TechArticleFactory implements ArticleFactory {
         if (fields.length != 4) {
             throw new ArticleManagementException("not 4 fields");
         }
-        for(int i = 1; i < fields.length; i++){
+        for(int i = 0; i < fields.length; i++){
             fields[i] = fields[i].trim();
         }
         try {
             return new TechArticle(fields[1], Integer.parseInt(fields[0]), Integer.parseInt(fields[2]), Integer.parseInt(fields[3]));
         }
         catch (Exception e) {
-            throw new ArticleManagementException("Problem while creating new TechArticle in factory", e.getCause());
+            throw new ArticleManagementException(e.getMessage(), e.getCause());
         }
     }
 }
